@@ -77,11 +77,11 @@
   "url": "https://commons.wikimedia.org/wiki/File:Michinoeki_Kyoda_202108_01.jpg"
  },
  "tropical": {
-  "file": "Solandra maxima in Tropical Dream Center, Okinawa.jpg",
+  "file": "Calanthe masuca flower at Tropical Dream Center, Motobu, Okinawa.jpg",
   "artist": "M108t",
   "license": "CC BY 4.0",
   "license_url": "https://creativecommons.org/licenses/by/4.0",
-  "url": "https://commons.wikimedia.org/wiki/File:Solandra_maxima_in_Tropical_Dream_Center,_Okinawa.jpg"
+  "url": "https://commons.wikimedia.org/wiki/File:Calanthe_masuca_flower_at_Tropical_Dream_Center,_Motobu,_Okinawa.jpg"
  },
  "emerald": {
   "file": "Okinawa Ocean Expo Park Emerald Beach hdsr Vlux5 06.jpg",
@@ -117,5 +117,12 @@
   "license": "Public domain",
   "license_url": null,
   "url": "https://commons.wikimedia.org/wiki/File:Orionbeer.jpg"
+ },
+ "kishimoto": {
+  "file": "Okinawa soba restaurant by kikmoyoo in Okinawa.jpg",
+  "artist": "kikmoyoo",
+  "license": "CC BY-SA 2.0",
+  "license_url": "https://creativecommons.org/licenses/by-sa/2.0",
+  "url": "https://commons.wikimedia.org/wiki/File:Okinawa_soba_restaurant_by_kikmoyoo_in_Okinawa.jpg"
  }
 }
