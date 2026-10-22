@@ -18,11 +18,12 @@
   --r:3px;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
 html{font-size:17px}
 html.big{font-size:20px}
 body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font);font-size:1rem;line-height:1.55;
-  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 48px}
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0 calc(84px + env(safe-area-inset-bottom,0px))}
 main{max-width:760px;margin:0 auto}
 h1,h2,h3{line-height:1.25;text-wrap:balance;margin:0}
 h1{font-size:1.65rem;font-weight:700;letter-spacing:-.01em}
@@ -53,7 +54,11 @@ small,.muted{color:var(--muted)}
 .alert{background:var(--warn-bg);color:var(--warn);border:1px solid #f0d9a8;border-radius:var(--r);padding:8px 12px;margin:10px 0;font-size:0.882rem}
 /* 히어로 */
 .hero{margin:20px 0 0}
-.hero img{width:100%;height:auto;aspect-ratio:3/1.4;object-fit:cover;display:block;border-radius:var(--r)}
+.hero img{width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;display:block;border-radius:var(--r)}
+.heroimg{position:relative;border-radius:var(--r);overflow:hidden}
+.herotext{position:absolute;left:0;right:0;bottom:0;padding:48px 16px 14px;background:linear-gradient(to top,rgba(0,0,0,.72),rgba(0,0,0,0));color:#fff}
+.herotext h1{color:#fff;font-size:1.5rem;text-shadow:0 1px 3px rgba(0,0,0,.5)}
+.herotext p{margin:4px 0 0;color:#fff;font-size:.88rem;opacity:.95;text-shadow:0 1px 2px rgba(0,0,0,.5)}
 .hero figcaption{font-size:0.706rem;color:var(--muted);margin-top:4px}
 .summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);margin:16px 0}
 .summary div{background:var(--bg);padding:12px 14px;min-width:0}
@@ -73,10 +78,11 @@ small,.muted{color:var(--muted)}
 .day{padding-top:16px}
 .dayhead{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px 16px;align-items:baseline;margin-bottom:10px}
 .weather{font-size:0.882rem;color:var(--muted)}
-.map{height:340px;border:1px solid var(--line);border-radius:var(--r);background:var(--soft)}
+.map{height:min(55vh,520px);min-height:320px;border:1px solid var(--line);border-radius:var(--r);background:var(--soft);transition:height .2s}
+.map.big{height:calc(100vh - 150px);min-height:420px}
 .maplegend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:0.765rem;color:var(--muted);margin:6px 0 14px;align-items:center}
 .maplegend label{display:inline-flex;gap:6px;align-items:center;cursor:pointer}
-.pin{width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 0 0 1px var(--accent)}
+.pin{width:30px;height:30px;border-radius:50%;background:var(--accent);color:#fff;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;border:2px solid #fff;box-shadow:0 0 0 1px var(--accent)}
 .pin.alt{border-radius:2px;transform:rotate(45deg);background:#fff;color:var(--accent);border:2px solid var(--accent);box-shadow:none}
 .pin.alt span{transform:rotate(-45deg)}
 .pin.opt{background:#fff;color:var(--accent);border:2px dashed var(--accent);box-shadow:none}
@@ -85,14 +91,23 @@ small,.muted{color:var(--muted)}
 .leaflet-popup-content .btn{margin-top:6px}
 /* 시간표 */
 .sched{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
-.sched li{display:grid;grid-template-columns:62px 44px minmax(0,1fr) auto;gap:4px 10px;padding:10px 0;border-bottom:1px solid var(--line);align-items:start}
+.sched li{display:grid;grid-template-columns:58px 28px 44px minmax(0,1fr) auto;gap:4px 10px;padding:8px 0 10px;align-items:start;position:relative}
+.rail{position:relative;align-self:stretch;min-height:44px}
+.rail .dot{position:absolute;left:0;top:2px;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-size:.76rem;font-weight:700;display:flex;align-items:center;justify-content:center;z-index:1}
+.sched li:not(:last-child) .rail::after{content:"";position:absolute;left:12px;top:30px;bottom:-12px;border-left:2px solid var(--line)}
+.legpill{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:4px 12px;font-size:.76rem;color:var(--muted);background:var(--soft);font-variant-numeric:tabular-nums}
+.legpill svg{flex:none;width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.legpill a{font-weight:600}
+.drivesum{font-size:.82rem;color:var(--muted);font-variant-numeric:tabular-nums}
 .sched .t{font-variant-numeric:tabular-nums;font-weight:700;font-size:1rem}
 .sched .t small{display:block;font-weight:400;color:var(--muted);font-size:0.706rem}
 .sched .n{font-weight:600}
 .sched .n a{color:inherit;text-decoration:none;border-bottom:1px solid var(--line)}
 .sched .d{font-size:0.824rem;color:var(--muted)}
-.sched .leg{grid-column:3/5;font-size:0.765rem;color:var(--muted);padding-left:10px;border-left:2px solid var(--line);margin-top:2px}
-.sched .ctl{display:flex;gap:4px}
+.sched .leg{grid-column:4/6;margin-top:4px}
+.sched .leg small{display:block;font-size:.7rem;color:var(--muted);margin-top:2px}
+.sched .ctl{display:none;gap:4px}
+.sched.edit .ctl{display:flex}
 .sched .ctl button{min-width:34px;min-height:34px;border:1px solid var(--line);border-radius:var(--r);background:var(--bg);font:inherit;font-size:0.824rem;cursor:pointer;color:var(--muted)}
 .schedbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 0;font-size:0.824rem;color:var(--muted)}
 /* 장소 카드 */
@@ -152,6 +167,18 @@ td.num,th.num{text-align:right}
 .todayrow{display:flex;gap:12px;align-items:flex-start}
 .todayrow .thumb{width:72px;height:72px}
 .leaflet-popup-content img.pthumb{width:100%;height:96px;object-fit:cover;border-radius:var(--r);display:block;margin-bottom:6px}
+.preview{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin:8px 0 10px;font-size:.94rem;color:var(--muted)}
+.card:has(details[open]) .preview{-webkit-line-clamp:unset;display:block;color:var(--fg)}
+h2,.day,#top{scroll-margin-top:60px}
+/* 하단 탭바 */
+.tabbar{position:fixed;left:0;right:0;bottom:0;z-index:30;display:flex;background:var(--bg);border-top:1px solid var(--line);
+  padding:6px max(8px,env(safe-area-inset-right,0px)) calc(6px + env(safe-area-inset-bottom,0px)) max(8px,env(safe-area-inset-left,0px))}
+.tabbar a{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;min-height:48px;justify-content:center;text-decoration:none;color:var(--muted);font-size:.7rem;font-weight:600;border-radius:var(--r)}
+.tabbar a svg{width:24px;height:24px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tabbar a.on{color:var(--accent)}
+.sheet{position:fixed;left:0;right:0;bottom:calc(60px + env(safe-area-inset-bottom,0px));z-index:29;background:var(--bg);border-top:1px solid var(--line);box-shadow:0 -6px 20px rgba(0,0,0,.08);
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;padding:8px max(16px,env(safe-area-inset-right,0px)) 12px max(16px,env(safe-area-inset-left,0px))}
+.sheet a{display:flex;align-items:center;min-height:48px;padding:4px 12px;text-decoration:none;color:var(--fg);font-weight:600;border-bottom:1px solid var(--line)}
 /* 접히는 카드 */
 .card .head{padding:12px 14px 14px}
 .card details{border-top:1px solid var(--line)}
@@ -178,21 +205,18 @@ td.num,th.num{text-align:right}
 <main>
 <header class="topbar">
   <b>오키나와 가족여행</b>
-  <nav aria-label="바로가기">
-    <a href="#days">일정</a><a href="#airport">공항</a><a href="#life">생활정보</a><a href="#emergency">긴급</a><a href="#drive">운전</a><a href="#car">렌터카</a><a href="#tips">후기 팁</a><a href="#checklist">체크리스트</a><a href="#cost">비용</a><a href="#offline">오프라인</a>
-  </nav>
+  <span class="muted" style="font-size:.82rem">2026.12.24 ~ 27</span>
   <button class="btn small" id="bigBtn" aria-pressed="false" title="글자 크게 보기" style="flex:none">가+</button>
 </header>
 
 <section id="today" class="today" hidden aria-live="polite"></section>
 <p class="note" id="todayHint" style="margin-top:12px"></p>
 
-<figure class="hero">
-  <img src="img/hero.jpg" alt="하네지 내해와 오키나와 북부 바다를 내려다본 사진" width="1200" height="560">
+<figure class="hero" id="top">
+  <div class="heroimg"><img src="img/hero.jpg" alt="하네지 내해와 오키나와 북부 바다를 내려다본 사진" width="1200" height="675">
+    <div class="herotext"><h1>오키나와 가족여행 가이드</h1><p>2026년 12월 24일(목) ~ 27일(일) · 3박 4일 · 어른 4명과 두 살 아들</p></div></div>
   <figcaption id="heroCredit"></figcaption>
 </figure>
-<h1 style="margin-top:16px">오키나와 가족여행 가이드</h1>
-<p class="muted">2026년 12월 24일(목) ~ 27일(일) · 3박 4일 · 어른 4명과 두 살 아들</p>
 
 <dl class="summary">
   <div><dt>항공 · 이스타항공</dt><dd>12/24 11:25 서울 출발 → 13:50 나하 도착<br>12/27 15:00 나하 출발</dd></div>
@@ -266,6 +290,17 @@ td.num,th.num{text-align:right}
 </ul>
 <p class="note" style="margin-top:24px">이 페이지는 개인용 여행 메모입니다. 검색엔진에 노출되지 않도록 설정되어 있습니다.</p>
 </main>
+
+<nav class="tabbar" id="tabbar" aria-label="하단 메뉴">
+  <a href="#top" data-tab="today"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>오늘</span></a>
+  <a href="#days" data-tab="days"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span>일정</span></a>
+  <a href="#airport" data-tab="airport"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 21l1.5-7L4 11l1-2 8 1.5L18 4h2.5l-2.5 8 4 2-1 2-4.5-1-3 6z"/></svg><span>공항</span></a>
+  <a href="#emergency" data-tab="emergency"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg><span>긴급</span></a>
+  <a href="#more" data-tab="more"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="5" cy="12" r="1.8" fill="currentColor"/><circle cx="12" cy="12" r="1.8" fill="currentColor"/><circle cx="19" cy="12" r="1.8" fill="currentColor"/></svg><span>더보기</span></a>
+</nav>
+<div class="sheet" id="moreSheet" hidden>
+  <a href="#life">생활 정보</a><a href="#drive">운전 메모</a><a href="#car">렌터카</a><a href="#tips">후기 팁</a><a href="#checklist">체크리스트</a><a href="#cost">비용 기록</a><a href="#offline">오프라인 저장</a><a href="#sources">출처</a>
+</div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-gesture-handling@1.2.2/dist/leaflet-gesture-handling.min.js"></script>
@@ -483,12 +518,12 @@ const routeCache = {};
 async function route(points){ // points: [{lat,lng}] → {legs:[min], line:[[lat,lng]]}
   const key = points.map(p => p.lng.toFixed(4)+','+p.lat.toFixed(4)).join(';');
   if (routeCache[key]) return routeCache[key];
-  const fallback = { legs: points.slice(1).map((p,i) => estMin(points[i], p)), line: points.map(p => [p.lat,p.lng]), est:true };
+  const fallback = { legs: points.slice(1).map((p,i) => estMin(points[i], p)), dist: points.slice(1).map((p,i) => km(points[i], p)), line: points.map(p => [p.lat,p.lng]), est:true };
   if (points.length < 2) return fallback;
   try {
     const r = await fetch(`https://router.project-osrm.org/route/v1/driving/${key}?overview=full&geometries=geojson`);
     const j = await r.json(); const rt = j.routes && j.routes[0]; if (!rt) throw 0;
-    const out = { legs: rt.legs.map(l => Math.round(l.duration/60)), line: rt.geometry.coordinates.map(c => [c[1], c[0]]), est:false };
+    const out = { legs: rt.legs.map(l => Math.round(l.duration/60)), dist: rt.legs.map(l => l.distance/1000), line: rt.geometry.coordinates.map(c => [c[1], c[0]]), est:false };
     routeCache[key] = out; return out;
   } catch(e) { return fallback; }
 }
@@ -532,11 +567,11 @@ function renderTabs(){
   const tabs = $('#tabs'); tabs.innerHTML = DAYS.map((d,i) => `<button role="tab" id="tab${i}" aria-selected="false" aria-controls="day${i}" data-i="${i}">${d.title}<span>${d.sub}</span></button>`).join('');
   tabs.addEventListener('click', e => { const b = e.target.closest('button'); if (b) showDay(+b.dataset.i, true); });
   $('#dayPanels').innerHTML = DAYS.map((d,i) => `<section class="day" id="day${i}" role="tabpanel" hidden>
-    <div class="dayhead"><h3>${d.title} <span class="muted" style="font-weight:400">${d.sub}</span></h3><div class="weather" id="wx${i}"></div></div>
+    <div class="dayhead"><h3>${d.title} <span class="muted" style="font-weight:400">${d.sub}</span></h3><div class="weather" id="wx${i}"></div><div class="drivesum" id="drv${i}"></div></div>
     <p class="note" style="margin:0 0 10px"><b>식사</b> ${esc(d.meals)}</p>
     <div class="map" id="map${i}" aria-label="${d.title} 지도"></div>
     <div class="maplegend"><span><span class="pin" style="display:inline-flex;width:18px;height:18px;font-size:10px">1</span> 일정</span><span><span class="pin opt" style="display:inline-flex;width:18px;height:18px;font-size:10px">A</span> 선택·우천 (점선)</span><span><span class="pin alt" style="display:inline-flex;width:14px;height:14px;font-size:10px;margin:0 4px"><span>◆</span></span> 대안</span>
-      <label><input type="checkbox" id="bf${i}"> 배리어프리 표시</label></div>
+      <label><input type="checkbox" id="bf${i}"> 배리어프리 표시</label><button class="btn small" data-mapbig="${i}" style="margin-left:auto">지도 크게</button></div>
     <h3 style="margin-top:8px">시간표</h3>
     <ol class="sched" id="sched${i}"></ol>
     <div class="schedbar" id="schedbar${i}"></div>
@@ -577,11 +612,15 @@ async function renderSchedule(i){
   // 1차: 추정치로 바로 그리고, OSRM 오면 갱신
   const draw = (r) => {
     const rows = schedule(day, stops, r.legs);
-    list.innerHTML = stops.map((s, k) => { const p = P[s.p]; const leg = k < stops.length-1 ? `<div class="leg">차로 약 ${r.legs[k]}분 + 여유 ${buffer}분${r.est ? ' (직선거리 추정)' : ' (OSRM 추정, 도로 사정 미반영)'}</div>` : '';
-      return `<li><div class="t">${fmt(rows[k].arr)}${s.stay ? `<small>~${fmt(rows[k].dep)}</small>` : ''}</div>${thumbOf(p, 'sthumb')}<div class="n"><a href="#p-${i}-${idOf(p)}">${esc(s.label || p.name)}</a><div class="d">${esc(s.note||'')}${s.fixed ? ' · 고정 ' + s.fixed : ''}</div></div>
+    const CAR = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 16l1.5-5.5A2 2 0 0 1 8.4 9h7.2a2 2 0 0 1 1.9 1.5L19 16"/><path d="M3 16h18v3H3z"/><circle cx="7" cy="19" r="1.5"/><circle cx="17" cy="19" r="1.5"/></svg>';
+    const totalMin = r.legs.reduce((a,b) => a+b, 0), totalKm = (r.dist || []).reduce((a,b) => a+b, 0);
+    $('#drv'+i).textContent = `운전 합계 약 ${totalMin >= 60 ? Math.floor(totalMin/60) + '시간 ' : ''}${totalMin % 60}분 · ${Math.round(totalKm)}km${r.est ? ' (직선거리 추정)' : ' (여유 시간 제외)'}`;
+    list.innerHTML = stops.map((s, k) => { const p = P[s.p]; const nx = stops[k+1] ? P[stops[k+1].p] : null;
+      const leg = nx ? `<div class="leg"><span class="legpill">${CAR}<span>차 ${r.legs[k]}분 · ${(r.dist ? r.dist[k] : 0).toFixed(r.dist && r.dist[k] < 10 ? 1 : 0)}km · 여유 ${buffer}분 · <a href="${dirUrl(nx)}" target="_blank" rel="noopener">길찾기</a></span></span>${r.est ? '<small>직선거리 추정 (경로 서버 응답 없음)</small>' : ''}</div>` : '';
+      return `<li><div class="t">${fmt(rows[k].arr)}${s.stay ? `<small>~${fmt(rows[k].dep)}</small>` : ''}</div><div class="rail"><span class="dot">${k+1}</span></div>${thumbOf(p, 'sthumb')}<div class="n"><a href="#p-${i}-${idOf(p)}">${esc(s.label || p.name)}</a><div class="d">${esc(s.note||'')}${s.fixed ? ' · 고정 ' + s.fixed : ''}</div></div>
       <div class="ctl"><button aria-label="위로" data-mv="${k},-1" ${k===0?'disabled':''}>▲</button><button aria-label="아래로" data-mv="${k},1" ${k===stops.length-1?'disabled':''}>▼</button><button aria-label="빼기" data-rm="${k}" ${stops.length<=2?'disabled':''}>×</button></div>${leg}</li>`; }).join('');
     const isLate = late && late.date === day.date;
-    $('#schedbar'+i).innerHTML = (isCustom(i) ? `<span>수정된 일정입니다.</span> <button class="btn small" data-reset="${i}">원래 일정으로</button>` : `<span>▲▼로 순서를 바꾸거나 ×로 빼면 시간이 다시 계산됩니다.</span>`) + ` <span>시작 ${day.start}</span>`
+    $('#schedbar'+i).innerHTML = `<button class="btn small" data-edit="${i}" aria-pressed="${list.classList.contains('edit')}">${list.classList.contains('edit') ? '편집 끝' : '순서 바꾸기'}</button>` + (isCustom(i) ? ` <span>수정된 일정입니다.</span> <button class="btn small" data-reset="${i}">원래 일정으로</button>` : '') + ` <span>시작 ${day.start}</span>`
       + (isLate ? ` <span>· ${fmt(late.dep)} "지금 출발" 기준으로 계산됨</span> <button class="btn small" data-unlate="1">되돌리기</button>` : '')
       + ` <label>· 이동마다 여유 <input type="number" class="bufin" value="${buffer}" min="0" max="60" step="5" style="width:60px;display:inline-block;min-height:32px;padding:2px 6px" aria-label="이동마다 더할 여유 시간(분)">분</label>`;
     // 지도
@@ -597,11 +636,13 @@ async function renderSchedule(i){
     }
     return rows;
   };
-  const est = { legs: pts.slice(1).map((p,k) => estMin(pts[k], p)), line: pts.map(p => [p.lat,p.lng]), est:true };
+  const est = { legs: pts.slice(1).map((p,k) => estMin(pts[k], p)), dist: pts.slice(1).map((p,k) => km(pts[k], p)), line: pts.map(p => [p.lat,p.lng]), est:true };
   draw(est);
   const real = await route(pts); if (!real.est) draw(real);
   renderToday();
 }
+document.addEventListener('click', e => { const b = e.target.closest('[data-edit]'); if (!b) return; const list = $('#sched'+b.dataset.edit); list.classList.toggle('edit'); b.textContent = list.classList.contains('edit') ? '편집 끝' : '순서 바꾸기'; b.setAttribute('aria-pressed', list.classList.contains('edit')); });
+document.addEventListener('click', e => { const b = e.target.closest('[data-mapbig]'); if (!b) return; const i = +b.dataset.mapbig, el = $('#map'+i); el.classList.toggle('big'); b.textContent = el.classList.contains('big') ? '지도 작게' : '지도 크게'; setTimeout(() => maps[i] && maps[i].map.invalidateSize(), 220); });
 document.addEventListener('click', e => {
   const mv = e.target.closest('[data-mv]'), rm = e.target.closest('[data-rm]'), rs = e.target.closest('[data-reset]'), add = e.target.closest('[data-add]');
   const i = +(document.querySelector('.tabs [aria-selected="true"]')?.dataset.i ?? 0);
@@ -620,8 +661,8 @@ const thumbOf = (p, cls='thumb') => p.img ? `<img class="${cls}" src="img/t/${p.
 function card(id, i, kind){
   const p = P[id], c = CREDITS[p.img];
   const img = p.img ? `<figure><img src="img/${p.img}.jpg" alt="${esc(p.name)} 사진" loading="lazy"><figcaption>사진: ${esc(c.artist)} · ${esc(c.license)} · <a href="${c.url}" target="_blank" rel="noopener">${esc(c.src || 'Wikimedia Commons')}</a></figcaption></figure>` : '';
-  const chips = [`<span class="walk ${p.walk}">걷기: ${WALK[p.walk]}</span>`, p.indoor ? '<span class="chip">실내</span>' : '<span class="chip">야외</span>', p.cash ? '<span class="chip warn">현금 권장</span>' : '',
-    ...(p.access||[]).map(a => `<span class="chip ${a.includes(NEED)?'warn':'ok'}">${esc(a)}</span>`)].join('');
+  const chips = [`<span class="walk ${p.walk}">걷기: ${WALK[p.walk]}</span>`, p.indoor ? '<span class="chip">실내</span>' : '<span class="chip">야외</span>', p.cash ? '<span class="chip warn">현금 권장</span>' : ''].join('');
+  const access = (p.access||[]).length ? `<div class="badges"><span class="muted" style="font-size:.82rem;align-self:center">배리어프리</span>${p.access.map(a => `<span class="chip ${a.includes(NEED)?'warn':'ok'}">${esc(a)}</span>`).join('')}</div>` : '';
   const navi = p.mapcode ? `<div class="mapcode"><small>맵코드 (렌터카 내비에 입력)</small>${esc(p.mapcode)}</div>`
     : `<div class="mapcode"><small>맵코드 없음 → 내비에 ${p.phone ? '전화번호나 ' : ''}일본어 주소로 검색</small>${p.phone ? esc(p.phone) : '<span class="muted" style="font-size:.88rem;font-weight:500">아래 주소를 복사해 내비에 입력</span>'}</div>`;
   const addr = p.addr ? `<div class="addr"><span class="muted">주소</span><span>${esc(p.addr)}</span><button class="btn small" data-copy="${esc(p.addr)}">주소 복사</button></div>` : '';
@@ -630,10 +671,10 @@ function card(id, i, kind){
     <div class="headrow">${thumbOf(p)}<div class="headtext">${kind ? `<div class="kind">${kind}</div>` : ''}
     <h3>${esc(p.name)}<span class="ja">${esc(p.ja)}</span></h3>
     <div class="badges">${chips}</div></div></div>
+    <p class="preview">${esc(p.desc)}</p>
     <div class="navrow"><a class="btn primary" href="${dirUrl(p)}" target="_blank" rel="noopener">구글맵 길찾기</a>${p.mapcode ? `<button class="btn" data-copy="${esc(p.mapcode)}">맵코드 복사</button>` : ''}${tel ? `<a class="btn" href="${tel}">전화 걸기</a>` : ''}${kind === '대안' || kind === '선택' ? `<button class="btn" data-add="${id}">일정에 넣기</button>` : ''}</div>
     ${navi}${addr}</div>
-    <details><summary>설명 · 운영시간 · 요금 · 팁</summary><div class="body">${img}
-    <p>${esc(p.desc)}</p>
+    <details><summary>운영시간 · 요금 · 배리어프리 · 팁</summary><div class="body">${img}${access}
     <p class="why"><b>이 가족에게</b> ${esc(p.why)}</p>
     <dl class="info"><dt>운영시간</dt><dd>${esc(p.hours)}</dd><dt>요금</dt><dd>${esc(p.fee)}</dd>${p.phone ? `<dt>전화</dt><dd>${esc(p.phone)} <button class="btn small" data-copy="${esc(p.phone)}">복사</button></dd>` : ''}${p.url ? `<dt>공식</dt><dd><a href="${p.url}" target="_blank" rel="noopener">공식 사이트 · 휴관 공지 확인</a>${p.x ? ` · <a href="${p.x}" target="_blank" rel="noopener">공식 X</a>` : ''}</dd>` : ''}</dl>
     ${p.tips.length ? `<ul class="tips">${p.tips.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : ''}
@@ -806,8 +847,22 @@ document.addEventListener('change', e => { if (e.target.matches('.bufin')) { buf
 document.addEventListener('click', e => { const l = e.target.closest('[data-late]'), u = e.target.closest('[data-unlate]'); if (!l && !u) return;
   const d = now(); late = l ? { date: ymd(d), k: +l.dataset.late, dep: d.getHours()*60 + d.getMinutes() } : null; store.set(LATE_KEY, late); rerender(); });
 
+/* ========= 하단 탭바 ========= */
+function initTabbar(){
+  const bar = $('#tabbar'), sheet = $('#moreSheet'), items = [...bar.querySelectorAll('[data-tab]')];
+  const setOn = name => items.forEach(x => x.classList.toggle('on', x.dataset.tab === name));
+  bar.addEventListener('click', e => { const a = e.target.closest('[data-tab]'); if (!a) return;
+    if (a.dataset.tab === 'more') { e.preventDefault(); sheet.hidden = !sheet.hidden; a.classList.toggle('on', !sheet.hidden); return; }
+    sheet.hidden = true; setOn(a.dataset.tab); });
+  sheet.addEventListener('click', e => { if (e.target.closest('a')) { sheet.hidden = true; setOn(''); } });
+  document.addEventListener('click', e => { if (!sheet.hidden && !e.target.closest('#moreSheet, #tabbar')) { sheet.hidden = true; setOn(''); } });
+  const spy = { top:'today', days:'days', airport:'airport', emergency:'emergency' };
+  if ('IntersectionObserver' in window) { const io = new IntersectionObserver(es => { es.forEach(en => { if (en.isIntersecting && sheet.hidden) setOn(spy[en.target.id]); }); }, { rootMargin: '-25% 0px -60% 0px' });
+    Object.keys(spy).forEach(id => { const el = document.getElementById(id); if (el) io.observe(el); }); }
+}
+
 /* ========= 시작 ========= */
-renderTabs(); renderCards(); renderStatic(); renderAirport(); renderLife(); renderCost(); initBig(); openCard(location.hash);
+renderTabs(); renderCards(); renderStatic(); renderAirport(); renderLife(); renderCost(); initBig(); initTabbar(); openCard(location.hash);
 (function(){ const h = location.hash.match(/^#d([1-4])$/); const today = ymd(now()); const ti = DAYS.findIndex(d => d.date === today);
   showDay(h ? +h[1]-1 : (ti >= 0 ? ti : 0), false); })();
 renderToday(); loadWeather(); loadRate();
